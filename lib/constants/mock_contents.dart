@@ -7,17 +7,17 @@ final mockContents = [
       subject: "Spor",
       time: 10,
       iconPath: "assets/icon/earth.png",
-      containerBgColor: AppColors.timerContainerColor2),
+      containerBgColor: AppColors.timerContainerColor2.value),
   ContentModel(
       id: 2,
       subject: "Kitap Okuma",
       time: 20,
       iconPath: "assets/icon/earth.png",
-      containerBgColor: AppColors.timerContainerColor2),
+      containerBgColor: AppColors.timerContainerColor2.value),
   ContentModel(
       id: 3,
       subject: "Müzik",
       time: 15,
       iconPath: "assets/icon/earth.png",
-      containerBgColor: AppColors.timerContainerColor2),
+      containerBgColor: AppColors.timerContainerColor2.value),
 ];

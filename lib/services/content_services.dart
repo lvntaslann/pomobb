@@ -1,26 +1,35 @@
+// content_services.dart
+
+import 'package:hive/hive.dart';
 import '../model/content_model.dart';
-import '../constants/mock_contents.dart';
 
 class ContentServices {
-  final List<ContentModel> _contents = List.from(mockContents);
+  final Box<ContentModel> contentBox;
+
+  ContentServices({required this.contentBox});
 
   Future<List<ContentModel>> getAllContent() async {
     await Future.delayed(const Duration(milliseconds: 300));
-    return List.from(_contents);
+    return contentBox.values.toList();
   }
 
   Future<void> addContent(ContentModel content) async {
-    _contents.add(content);
+
+    await contentBox.add(content);
   }
 
   Future<void> deleteContent(int contentId) async {
-    _contents.removeWhere((c) => c.id == contentId);
+    final contentToDelete = contentBox.values.firstWhere(
+      (content) => content.id == contentId,
+    );
+    await contentToDelete.delete();
   }
 
   Future<void> updateContent(ContentModel updated) async {
-    final index = _contents.indexWhere((c) => c.id == updated.id);
-    if (index != -1) {
-      _contents[index] = updated;
-    }
+    await updated.save();
+  }
+
+  Future<void> clearAll() async {
+    await contentBox.clear();
   }
 }

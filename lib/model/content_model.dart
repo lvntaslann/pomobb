@@ -1,11 +1,19 @@
-import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
-class ContentModel {
+part 'content_model.g.dart';
+
+@HiveType(typeId: 1)
+class ContentModel extends HiveObject {
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final String subject;
+  @HiveField(2)
   final int time;
+  @HiveField(3)
   final String iconPath;
-  final Color containerBgColor;
+  @HiveField(4)
+  final int containerBgColor;
 
   ContentModel({
     required this.id,
@@ -20,7 +28,7 @@ class ContentModel {
         "subject": subject,
         "time": time,
         "iconPath": iconPath,
-        "containerBgColor": containerBgColor.value,
+        "containerBgColor": containerBgColor,
       };
 
   factory ContentModel.fromJson(Map<String, dynamic> json) => ContentModel(
@@ -28,6 +36,11 @@ class ContentModel {
         subject: json["subject"],
         time: json["time"],
         iconPath: json["iconPath"],
-        containerBgColor: Color(json["containerBgColor"]),
+        containerBgColor: json["containerBgColor"],
       );
+
+  @override
+  String toString() {
+    return 'ContentModel{id: $id, subject: $subject, time: $time, iconPath: $iconPath, containerBgColor: $containerBgColor}';
+  }
 }
