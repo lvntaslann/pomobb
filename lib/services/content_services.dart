@@ -14,7 +14,6 @@ class ContentServices {
   }
 
   Future<void> addContent(ContentModel content) async {
-
     await contentBox.add(content);
   }
 
@@ -25,11 +24,20 @@ class ContentServices {
     await contentToDelete.delete();
   }
 
-  Future<void> updateContent(ContentModel updated) async {
-    await updated.save();
+Future<void> updateContent(ContentModel updated) async {
+  final index = contentBox.values.toList().indexWhere((c) => c.id == updated.id);
+  if (index != -1) {
+    await contentBox.putAt(index, updated);
   }
+}
 
   Future<void> clearAll() async {
     await contentBox.clear();
+  }
+
+  Future<ContentModel> getSelectedContentData(int contentId) async {
+    return contentBox.values.firstWhere(
+      (content) => content.id == contentId,
+    );
   }
 }

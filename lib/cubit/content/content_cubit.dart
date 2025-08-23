@@ -50,4 +50,6 @@ class ContentCubit extends Cubit<ContentState> {
       emit(state.copyWith(isUpdated: false, errorMessage: e.toString()));
     }
   }
+  
 }
+  

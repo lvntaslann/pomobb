@@ -13,6 +13,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   hive_generator: ^2.0.1
+  lottie: ^3.3.1
   percent_indicator: ^4.2.5
 
 dev_dependencies:
@@ -26,3 +27,4 @@ flutter:
   assets:
     - assets/icon/
     - assets/logo/
+    - assets/lottie/

@@ -11,6 +11,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(ContentModelAdapter());
+  
   var box= await Hive.openBox<ContentModel>('contentData');
   runApp(
     MultiBlocProvider(

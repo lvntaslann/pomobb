@@ -1,9 +1,13 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:pomobb/themes/app_colors.dart';
+import 'package:pomobb/model/content_model.dart';
+import 'package:pomobb/widgets/showdialog/task_showdialog.dart';
+import '../../widgets/button/timer_button.dart';
+import '../../widgets/timer_paint.dart';
 
 class TimerPage extends StatefulWidget {
-  const TimerPage({Key? key}) : super(key: key);
+  final ContentModel content;
+  const TimerPage({Key? key, required this.content}) : super(key: key);
 
   @override
   State<TimerPage> createState() => _TimerPageState();
@@ -12,14 +16,30 @@ class TimerPage extends StatefulWidget {
 class _TimerPageState extends State<TimerPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  bool isTimeFinish = false;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 10),
-    )..repeat();
+      duration: Duration(seconds: widget.content.time * 60),
+    );
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        func_showdialog();
+      }
+    });
+    _controller.forward();
+  }
+
+  void changeTimerState() {
+    if (_controller.isAnimating) {
+      _controller.stop();
+    } else {
+      _controller.forward();
+    }
   }
 
   @override
@@ -28,13 +48,26 @@ class _TimerPageState extends State<TimerPage>
     super.dispose();
   }
 
+  void func_showdialog() {
+    buildTaskFinishShowDialog();
+  }
+
+Future<dynamic> buildTaskFinishShowDialog() {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return TaskShowDialog(content: widget.content);
+    },
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     double circleSize = 250;
     double imageSize = 40;
 
     return Scaffold(
-      backgroundColor: AppColors.timerBgColor1,
+      backgroundColor: Color(widget.content.timerPageColor),
       body: Column(
         children: [
           const SizedBox(height: 200),
@@ -61,8 +94,8 @@ class _TimerPageState extends State<TimerPage>
                       CustomPaint(
                         size: Size(circleSize, circleSize),
                         painter: TimerPainter(
-                          backgroundColor: AppColors.timerStartProgressColor2,
-                          progressColor: AppColors.timerProgressColor2,
+                          backgroundColor: Color(widget.content.timerStartProgressColor),
+                          progressColor: Color(widget.content.timerProgressColor),
                           progress: _controller.value,
                         ),
                       ),
@@ -70,18 +103,26 @@ class _TimerPageState extends State<TimerPage>
                         left: earthX,
                         top: earthY,
                         child: Image.asset(
-                          "assets/icon/earth.png",
+                          widget.content.iconPath,
                           width: imageSize,
                           height: imageSize,
                         ),
                       ),
                       Center(
                         child: Text(
-                          "${(10 * (1 - _controller.value)).ceil()}",
-                          style: const TextStyle(
+                          (() {
+                            int remaining = widget.content.time * 60 -
+                                (_controller.value * widget.content.time * 60)
+                                    .round();
+                            int hours = remaining ~/ 3600;
+                            int minutes = (remaining ~/ 60) % 60;
+                            int seconds = remaining % 60;
+                            return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+                          })(),
+                          style:  TextStyle(
                             fontSize: 40,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.timerProgressColor2,
+                            color: Color(widget.content.timerTextColor),
                           ),
                         ),
                       ),
@@ -92,92 +133,32 @@ class _TimerPageState extends State<TimerPage>
             ),
           ),
           const SizedBox(height: 100),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TimerButton(
-                icon: Icons.refresh,
-              ),
-              SizedBox(width: 20),
-              TimerButton(
-                icon: Icons.play_arrow,
-              ),
-              SizedBox(width: 20),
-              TimerButton(
-                icon: Icons.cancel_outlined,
-              ),
-            ],
-          )
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            TimerButton(
+              onTap: () {
+                _controller.reset();
+                _controller.forward();
+              },
+              icon: Icons.refresh,
+            ),
+            const SizedBox(width: 20),
+            TimerButton(
+              onTap: () {
+                changeTimerState();
+              },
+              icon: Icons.play_arrow,
+            ),
+            const SizedBox(width: 20),
+            const SizedBox(),
+          ])
         ],
       ),
     );
   }
 }
 
-class TimerButton extends StatelessWidget {
-  const TimerButton({
-    required this.icon,
-    super.key,
-  });
-  final IconData icon;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 80,
-      height: 80,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: AppColors.timerButtonBgColor),
-      child: Icon(
-        icon,
-        color: AppColors.timerIconColor,
-        size: 40,
-      ),
-    );
-  }
-}
 
-class TimerPainter extends CustomPainter {
-  final Color backgroundColor;
-  final Color progressColor;
-  final double progress;
 
-  TimerPainter({
-    required this.backgroundColor,
-    required this.progressColor,
-    required this.progress,
-  });
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    final strokeWidth = 10.0;
-    final center = size.center(Offset.zero);
-    final radius = (size.width / 2) - (strokeWidth / 2);
 
-    final bgPaint = Paint()
-      ..color = backgroundColor
-      ..strokeWidth = strokeWidth - 1
-      ..style = PaintingStyle.stroke;
-
-    final progressPaint = Paint()
-      ..color = progressColor
-      ..strokeWidth = strokeWidth
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.butt;
-
-    canvas.drawCircle(center, radius, bgPaint);
-
-    final sweepAngle = 2 * pi * progress;
-    canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius),
-      -pi / 2 + 0.001,
-      sweepAngle,
-      false,
-      progressPaint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(TimerPainter oldDelegate) =>
-      oldDelegate.progress != progress;
-}
+ 

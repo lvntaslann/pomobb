@@ -5,9 +5,9 @@ class AppColors {
   static const Color homeBgColor = Color(0xFFFFFFFF);
   static const Color topTextColor = Color(0xFF313131);
 
-  static const Color timerBgColor1 = Color(0xFF9EEEDD);
-  static const Color timerBgColor2 = Color(0xFFDAB9FF);
-  static const Color timerBgColor3 = Color(0xFFEBB300);
+  static const Color timerBgColor2 = Color(0xFF9EEEDD);
+  static const Color timerBgColor1 = Color(0xFFDAB9FF);
+  static const Color timerBgColor3 = Color(0xFFF6DC8B);
 
   static const Color timerContaninerColor1 = Color(0xFFDAB9FF);
   static const Color timerContainerColor2 = Color(0xFF9EEEDD);
@@ -18,7 +18,7 @@ class AppColors {
 
   static const Color timerTextColor1 = Color(0xFF9954E8);
   static const Color timerTextColor2 = Color(0xFF038BB4);
-  static const Color timerTextColor3 = Color(0xFFFEC100);
+  static const Color timerTextColor3 = Color(0xFFE2AD08);
 
   static const Color timerProgressColor1 = Color(0xFF9954E8);
   static const Color timerProgressColor2 = Color(0xFF038BB4);

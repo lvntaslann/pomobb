@@ -1,3 +1,4 @@
+/*
 import 'package:pomobb/model/content_model.dart';
 import 'package:pomobb/themes/app_colors.dart';
 
@@ -21,3 +22,4 @@ final mockContents = [
       iconPath: "assets/icon/earth.png",
       containerBgColor: AppColors.timerContainerColor2.value),
 ];
+*/

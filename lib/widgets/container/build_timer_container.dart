@@ -9,12 +9,14 @@ class BuildTimerContainer extends StatelessWidget {
     required this.time,
     required this.iconPath,
     required this.containerBg,
+    required this.isSuccess
   });
 
   final String subject;
   final String time;
   final String iconPath;
   final Color containerBg;
+  final bool isSuccess;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class BuildTimerContainer extends StatelessWidget {
               height: 40,
               width: 40,
             ),
+            isSuccess ? const Icon(Icons.check_circle, color: Color.fromARGB(255, 11, 240, 18), size: 40,) : const Text("Tamamlanmadı"),
           ],
         ),
       ),
