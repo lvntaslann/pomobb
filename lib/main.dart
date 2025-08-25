@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:pomobb/cubit/content/content_cubit.dart';
 import 'package:pomobb/model/content_model.dart';
-import 'package:pomobb/pages/home/home.dart';
+import 'package:pomobb/pages/splash/splash_screen.dart';
 import 'package:pomobb/services/content_services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -28,9 +28,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Home()
+      home: SplashScreen()
     );
   }
 }

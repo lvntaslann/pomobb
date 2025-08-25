@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../themes/app_colors.dart';
 
 class BuildTimerContainer extends StatelessWidget {
@@ -9,7 +8,7 @@ class BuildTimerContainer extends StatelessWidget {
     required this.time,
     required this.iconPath,
     required this.containerBg,
-    required this.isSuccess
+    required this.isSuccess,
   });
 
   final String subject;
@@ -31,8 +30,7 @@ class BuildTimerContainer extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Row(
           children: [
             Column(
@@ -63,7 +61,34 @@ class BuildTimerContainer extends StatelessWidget {
               height: 40,
               width: 40,
             ),
-            isSuccess ? const Icon(Icons.check_circle, color: Color.fromARGB(255, 11, 240, 18), size: 40,) : const Text("Tamamlanmadı"),
+            const SizedBox(width: 10),
+            Row(
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isSuccess ? Colors.green : Colors.red,
+                    boxShadow: [
+                      BoxShadow(
+                        color: isSuccess
+                            ? Colors.green.withOpacity(0.5)
+                            : Colors.red.withOpacity(0.5),
+                        blurRadius: 3,
+                        spreadRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    isSuccess ? Icons.check : Icons.close,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

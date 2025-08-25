@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pomobb/cubit/content/content_cubit.dart';
 import 'package:pomobb/model/content_model.dart';
+import 'package:pomobb/pages/home/home.dart';
 import 'package:pomobb/themes/app_colors.dart';
 
-import '../../pages/home/home.dart';
-
-class TaskShowDialog extends StatelessWidget {
+class SadDialog extends StatelessWidget {
   final ContentModel content;
-
-  const TaskShowDialog({Key? key, required this.content}) : super(key: key);
+  const SadDialog({Key? key, required this.content}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,34 +20,38 @@ class TaskShowDialog extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Lottie.asset("assets/lottie/happy.json", width: 150, height: 150),
+              Lottie.asset("assets/lottie/sad.json", width: 150, height: 150),
+              const SizedBox(height: 20),
+              const Text(
+                "Gidiyor musun ?",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    style: ButtonStyle(
+                    style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white),
                     ),
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text("Kapat"),
+                    child: const Text("Kapat", style: TextStyle(color: Colors.black)),
                   ),
                   const SizedBox(width: 20),
                   ElevatedButton(
-                    style: ButtonStyle(
+                    style: const ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(
                           AppColors.timerProgressColor2),
                     ),
                     onPressed: () async {
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  Home()));
-                      final updatedContent = content.copyWith(isSuccess: true);
-                      await context
-                          .read<ContentCubit>()
-                          .updateContent(updatedContent);
                     },
                     child: const Text(
-                      "Ana Sayfa",
+                      "Ana sayfa",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
