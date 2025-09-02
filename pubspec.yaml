@@ -10,11 +10,15 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_local_notifications: ^19.4.1
+  flutter_timezone: ^4.1.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   hive_generator: ^2.0.1
   lottie: ^3.3.1
   percent_indicator: ^4.2.5
+  timezone: ^0.10.1
+  workmanager: ^0.9.0+3
 
 dev_dependencies:
   flutter_test:
